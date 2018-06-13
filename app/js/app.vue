@@ -7,22 +7,17 @@
 </template>
 
 <script>
-    import Bus from './bus';
+    import { mapGetters } from 'vuex';
     import HomePage from './pages/home.vue';
     import Boom from './components/boom.vue';
     import Corner from './components/corner.vue';
 
     export default {
         components: { HomePage, Boom, Corner },
-        data() {
-            return {
-                hasWarStarted: false
-            };
-        },
-        mounted() {
-            Bus.$on('update.counter', (counter) => {
-                this.hasWarStarted = counter >= 40;
-            });
+        computed: {
+            ...mapGetters([
+                'hasWarStarted'
+            ])
         }
     };
 </script>

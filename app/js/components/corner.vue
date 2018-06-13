@@ -22,14 +22,13 @@
 </template>
 
 <script>
-    import Bus from '../bus';
     import LoopIcon from '../../svg/loop.svg';
 
     export default {
         components: { LoopIcon },
         methods: {
             onClick() {
-                Bus.$emit('clear.madness');
+                this.$store.dispatch('clearMadness');
             }
         }
     };

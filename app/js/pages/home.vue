@@ -9,52 +9,27 @@
         <div class="wrapper">
             <div class="item" v-for="(dumb, index) in importantPeople" :key="index">
                 <h4 class="spaced">{{dumb.id | capitalize}}</h4>
-                <box v-model="dumb.madness" @input="updateGlobalCounter"></box>
+                <box v-model="dumb.madness"></box>
             </div>
         </div>
     </div>
 </template>
 
 <script>
-    import axios from 'axios';
-    import Bus from '../bus';
+    import { mapGetters } from 'vuex';
+
     import Box from '../components/box.vue';
     import Dumb from '../components/dumb.vue';
 
     export default {
         components: { Box, Dumb },
-        data() {
-            return {
-                importantPeople: null
-            };
-        },
         mounted() {
-            axios.get('/ajax.php')
-                .then(({ data: importantPeople }) => {
-                    this.importantPeople = importantPeople;
-                });
-
-            Bus.$on('clear.madness', () => {
-                if (!this.importantPeople) {
-                    return;
-                }
-
-                this.importantPeople = this.importantPeople.map((dumb) => {
-                    dumb.madness = 0;
-
-                    return dumb;
-                });
-
-                Bus.$emit('update.counter', 0);
-            });
+            this.$store.dispatch('fetchImportantPeople');
         },
-        methods: {
-            updateGlobalCounter() {
-                const counter = this.importantPeople
-                    .reduce((total, actual) => total + Number(actual.madness), 0);
-
-                Bus.$emit('update.counter', counter);
-            }
+        computed: {
+            ...mapGetters([
+                'importantPeople'
+            ])
         }
     };
 </script>
