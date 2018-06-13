@@ -1,90 +1,13 @@
-<?php
-$importantPeople = [
-    [ 'id' => 'kim', 'madness' => 0],
-    [ 'id' => 'putin', 'madness' => 0],
-    [ 'id' => 'merkel', 'madness' => 0],
-    [ 'id' => 'trump', 'madness' => 0]
-];
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Legacy To Vue</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <link rel="stylesheet" href="app/css/app.css">
+    <link rel="stylesheet" href="build/app.css">
 </head>
 <body>
-    <div id="page">
-        <div id="corner">
-            <?php include('app/svg/loop.svg') ?>
-        </div>
-
-        <div class="wrapper">
-            <?php foreach($importantPeople as $dumb) { ?>
-                <div class="item">
-                    <img src="app/images/<?php echo $dumb['id']; ?>.png" id="<?php echo $dumb['id']; ?>">
-                </div>
-            <?php }; ?>
-        </div>
-
-        <h2 class="center">Send Bad news!</h2>
-
-        <div class="wrapper">
-            <?php foreach($importantPeople as $dumb): ?>
-                <div class="item">
-                    <h4 class="spaced"><?php echo ucfirst($dumb['id']); ?></h4>
-                    <div class="box">
-                        <div class="box__selector" id="less-<?php echo $dumb['id']; ?>">-</div>
-                        <div class="box__total" id="total-<?php echo $dumb['id']; ?>"><?php echo $dumb['madness']; ?></div>
-                        <div class="box__selector" id="more-<?php echo $dumb['id']; ?>">+</div>
-                    </div>
-                </div>
-            <?php endforeach; ?>
-        </div>
-    </div>
-    <script type="text/javascript" src="app/js/external/jquery-3.3.1.js"></script>
-    <script type="text/javascript" src="app/js/tools.js"></script>
-    <script>
-        $(document).ready(function() {
-            var max = 10;
-
-            $('#less-kim, #less-putin, #less-merkel, #less-trump').on('click', function(e) {
-                var who = e.target.id.split('-')[1];
-                var $who = $('#' + who);
-                var $total = $('#total-' + who);
-                var total = Number($total.text());
-
-                total -= 1;
-
-                if(total >= 0) {
-                    $total.html(total);
-                    $who.removeClass();
-                    $who.addClass('shake-' + total);
-                    updateGlobalCounter();
-                }
-            });
-
-            $('#more-kim, #more-putin, #more-merkel, #more-trump').on('click', function(e) {
-                var who = e.target.id.split('-')[1];
-                var $who = $('#' + who);
-                var $total = $('#total-' + who);
-                var total = Number($total.text());
-
-                total += 1;
-
-                if(total <= max) {
-                    $total.html(total);
-                    $who.removeClass();
-                    $who.addClass('shake-' + total);
-                    updateGlobalCounter();
-                }
-            });
-
-            $('#corner').on('click', clear);
-            clear();
-        });
-    </script>
+    <div id="app"></div>
+    <script type="text/javascript" src="build/app.js"></script>
 </body>
 </html>

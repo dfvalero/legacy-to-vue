@@ -1,0 +1,20 @@
+@import '../settings/globals';
+
+.page {
+  position: relative;
+  margin: 0 auto;
+  max-width: $pageMaxWidth;
+}
+
+.wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 0 1rem 1rem 1rem;
+}
+
+.item {
+  display: block;
+  width: 50%;
+  height: 50%;
+  padding: 1rem;
+}

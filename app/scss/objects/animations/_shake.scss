@@ -1,0 +1,45 @@
+@function apply-random($input) {
+  @return if($input != 0, random($input) - $input/2, 0);
+}
+
+@mixin do-shake($name, $h, $v, $r) {
+  @at-root {
+    @keyframes #{$name} {
+      $interval: 2%;
+      $step: 2%;
+      $max: 100%;
+
+      @while $step < $max {
+        $move-x: apply-random($h);
+        $move-y: apply-random($v);
+        $rotate: apply-random($r);
+
+        #{$step} {
+          transform: translate($move-x, $move-y) rotate($rotate);
+        }
+
+        $step: $step + $interval;;
+      }
+    }
+  }
+}
+
+$maxItems: 10;
+$index: 1;
+
+$h: 4px;
+$v: 4px;
+$r: 2deg;
+
+@while $index <= $maxItems {
+  .shake-#{$index} {
+    @include do-shake(shake-#{$index}, $h*$index, $v*$index, $r*$index);
+    animation-name: shake-#{$index};
+    animation-duration: 100ms;
+    animation-timing-function: ease-in-out;
+    animation-iteration-count: infinite;
+    filter: saturate(0.5*$index + 1);
+  }
+
+  $index: $index + 1;
+}
